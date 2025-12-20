@@ -121,7 +121,7 @@ function App() {
                 ? ['#e11d48', '#fb7185', '#fecdd3'] // player1 confetti colors
                 : ['#1733ff', '#60a5fa', '#bfdbfe'] // player2 confetti colors
 
-            const duration = 1200;
+            const duration = 1200
             const end = Date.now() + duration;
 
             (function frame() {

@@ -1,73 +1,79 @@
-# React + TypeScript + Vite
+# Connect Four
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Project Overview
+This project is a web-based implementation of the classic **Connect Four** game.  
+It was developed as a mini project using **React**, **TypeScript**, and **Vite**, with a focus on clean state management, persistence, and responsive design.
 
-Currently, two official plugins are available:
+The game is fully playable in the browser and deployed via **GitHub Pages**.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+---
 
-## React Compiler
+## Team
+- [Maxim Zelensky](https://github.com/MaxZell)
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+---
 
-## Expanding the ESLint configuration
+## Features
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+### Core Gameplay
+- Two-player Connect Four game (Red vs. Blue)
+- Turn-based gameplay
+- Automatic detection of:
+    - Horizontal wins
+    - Vertical wins
+    - Diagonal wins
+    - Draw situations
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+### State Management
+- Game state is managed using a custom `useHistoryState` hook
+- Full **undo functionality** (multiple undo steps)
+- Game state is **persisted in localStorage**
+    - Reloading the page restores the last game
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+### Controls
+- **Undo**: Reverts the last move
+- **Reset**: Starts a new game (in-memory reset)
+- **Clear Save**: Deletes the persisted game state from localStorage
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+### Visual & UX Features
+- Fully responsive design (desktop and mobile)
+- Board always fits within the viewport (no scrolling)
+- Clear visual distinction between players
+- Highlight of the last move
+- Confetti animation when a player wins
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+---
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+## Technical Details
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+- **Framework**: React + TypeScript
+- **Build Tool**: Vite
+- **State Persistence**: Browser `localStorage`
+- **Styling**: CSS
+- **Deployment**: GitHub Pages (via GitHub Actions)
+
+Game logic (win detection, move handling) is implemented efficiently by checking only the last placed disc, ensuring constant-time performance per move.
+
+---
+
+## Game
+Game can be played [here](https://maxzell.github.io/connect-four-game/).
+
+---
+
+## Screenshots
+### Desktop View
+![Desktop – Gameplay](./src/assets/docu/screenshots/Screenshot-desktop.png)
+
+### Mobile View
+![Mobile – Gameplay](./src/assets/docu/screenshots/Screenshot-mobile.png)
+
+### Win States
+**Red Player Wins**  
+![Red Wins](./src/assets/docu/screenshots/Screenshot-red-wins.png)
+
+**Blue Player Wins**  
+![Blue Wins](./src/assets/docu/screenshots/Screenshot-blue-wins.png)
+
+**Draw**  
+![Draw](./src/assets/docu/screenshots/Screenshot-draw.png)
