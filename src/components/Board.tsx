@@ -1,5 +1,4 @@
 import './Board.css'
-import React from 'react'
 
 export const player1 = 'R' as const
 const player1Color: string = 'red'
@@ -28,7 +27,7 @@ export default function Board({ board, lastMove, onColumnClick, falling }: Props
                             className="board-col"
                             onClick={() => onColumnClick(col)}
                         >
-                            {board.map((row, r) => {
+                            {board.map((_row, r) => {
                                 const isLast =
                                     lastMove &&
                                     lastMove.row === r &&
