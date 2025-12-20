@@ -14,9 +14,10 @@ type Props = {
     board: Cell[][];
     lastMove: { row: number; col: number } | null;
     onColumnClick: (col: number) => void;
+    falling: { col: number; row: number; player: Player } | null;
 }
 
-export default function Board({ board, lastMove, onColumnClick }: Props) {
+export default function Board({ board, lastMove, onColumnClick, falling }: Props) {
     return(
         <div className="board-outer">
             <div className="board-aspect">
@@ -33,21 +34,19 @@ export default function Board({ board, lastMove, onColumnClick }: Props) {
                                     lastMove.row === r &&
                                     lastMove.col === col
 
+                                const base = board[r][col] // existing board disc
+                                const isFallingHere = falling && falling.col === col && falling.row === r
+                                const visual = isFallingHere ? falling?.player : base // Show falling
                                 return (
                                     <div key={r} className="board-cell">
                                         <div
-                                            className={`disc ${
-                                                row[col] === player1
-                                                    ? player1Color
-                                                    : row[col] === player2
-                                                        ? player2Color
-                                                        : ''
-                                            } ${isLast ? 'last drop' : ''}`}
-                                            style={
-                                                isLast
-                                                    ? ({'--dropRows': r + 1} as React.CSSProperties) // how many rows it "falls"
-                                                    : undefined
-                                            }
+                                            className={[
+                                                'disc',
+                                                visual === player1 ? player1Color : '',
+                                                visual === player2 ? player2Color : '',
+                                                isLast ? 'last' : '',
+                                                isFallingHere ? 'falling' : '',
+                                            ].join(' ')}
                                         />
                                     </div>
                                 )

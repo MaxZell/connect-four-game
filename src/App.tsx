@@ -1,4 +1,4 @@
-import {useEffect, useMemo, useRef} from 'react'
+import {useEffect, useMemo, useRef, useState} from 'react'
 import './App.css'
 import Controls from './components/Controls.tsx'
 import Board, { type Cell, type Player, player1, player2, player1Name, player2Name } from './components/Board'
@@ -14,6 +14,14 @@ type GameState = {
     current: Player;
     winner: Player | 'Draw' | null;
     lastMove: { row: number; col: number; player: Player } | null;
+}
+
+type Falling = {
+    col: number;
+    row: number;      // current animated row (0..targetRow)
+    targetRow: number;
+    player: Player;
+    nextState: GameState; // the final state to commit after animation
 }
 
 const emptyBoard: Cell[][] = [...Array(rows)].map(() => Array(cols).fill(null))
@@ -92,8 +100,11 @@ function App() {
         return `Turn: ${state.current === player1 ? player1Name : player2Name}`
     }, [state])
 
-    function handleColumnClick(col: number): void {
+    const [falling, setFalling] = useState<Falling | null>(null)
+    const STEP_MS = 70
+    function handleColumnClick(col: number) {
         if (state.winner) return
+        if (falling) return // block input during animation
 
         const dropped = dropInColumn(state.board, col, state.current)
         if (!dropped) return
@@ -102,13 +113,31 @@ function App() {
         const win = checkWinner(dropped.nextBoard, lastMove)
         const draw = !win && isDraw(dropped.nextBoard)
 
-        game.push({
+        const nextState: GameState = {
             board: dropped.nextBoard,
             current: win || draw ? state.current : other(state.current),
             winner: win ? win : draw ? 'Draw' : null,
             lastMove,
+        }
+
+        // start falling overlay at row 0, move down to target row
+        const targetRow = dropped.row
+
+        // if targetRow is 0, just commit immediately (no visible animation)
+        if (targetRow === 0) {
+            game.push(nextState)
+            return
+        }
+
+        setFalling({
+            col,
+            row: 0,
+            targetRow,
+            player: state.current,
+            nextState,
         })
     }
+
 
     // celebration confetti
     const lastCelebratedWinner = useRef<string | null>(null)
@@ -152,7 +181,23 @@ function App() {
         }
     }, [state.winner])
 
+    useEffect(() => {
+        if (!falling) return
 
+        if (falling.row >= falling.targetRow) {
+            // commit final move exactly once
+            game.push(falling.nextState)
+            setFalling(null)
+            return
+        }
+
+        const t = window.setTimeout(() => {
+            setFalling((f) => (f ? { ...f, row: f.row + 1 } : f))
+        }, STEP_MS)
+
+        return () => window.clearTimeout(t)
+    }, [falling, game])
+    
     return (
         <div className='main'>
             <div className="header">
@@ -168,6 +213,7 @@ function App() {
                     board={state.board}
                     lastMove={state.lastMove}
                     onColumnClick={handleColumnClick}
+                    falling={falling ? { col: falling.col, row: falling.row, player: falling.player } : null}
                 />
             </div>
 
