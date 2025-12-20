@@ -1,4 +1,5 @@
 import './Board.css'
+import React from 'react'
 
 export const player1 = 'R' as const
 const player1Color: string = 'red'
@@ -41,7 +42,12 @@ export default function Board({ board, lastMove, onColumnClick }: Props) {
                                                     : row[col] === player2
                                                         ? player2Color
                                                         : ''
-                                            } ${isLast ? 'last' : ''}`}
+                                            } ${isLast ? 'last drop' : ''}`}
+                                            style={
+                                                isLast
+                                                    ? ({'--dropRows': r + 1} as React.CSSProperties) // how many rows it "falls"
+                                                    : undefined
+                                            }
                                         />
                                     </div>
                                 )
