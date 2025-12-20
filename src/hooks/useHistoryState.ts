@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 
 export function useHistoryState<T>(key: string, initial: T) {
     const [history, setHistory] = useState<T[]>(() => {
-        const raw: string = localStorage.getItem(key)
+        const raw: string | null = localStorage.getItem(key)
         if (!raw) return [initial]
         try {
             const parsed: (T)[] = JSON.parse(raw) as T[]
