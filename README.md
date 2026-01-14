@@ -75,23 +75,23 @@ Game logic (win detection, move handling) is implemented efficiently by checking
 ---
 
 ## Game
-Game can be played [here](xhttps://maxzell.github.io/connect-four-game/).
+Game can be played [here](https://maxzell.github.io/connect-four-game/).
 
 ---
 
 ## Screenshots
 ### Desktop View
-![Desktop – Gameplay](./src/assets/docu/screenshots/screenshot-desktop.png)
+![Desktop – Gameplay](./src/assets/docu/screenshots/Screenshot-desktop.png)
 
 ### Mobile View
-![Mobile – Gameplay](./src/assets/docu/screenshots/screenshot-mobile.png)
+![Mobile – Gameplay](./src/assets/docu/screenshots/Screenshot-mobile.png)
 
 ### Win States
 **Red Player Wins**  
-![Red Wins](./src/assets/docu/screenshots/screenshot-red-wins.png)
+![Red Wins](./src/assets/docu/screenshots/Screenshot-red-wins.png)
 
 **Blue Player Wins**  
-![Blue Wins](./src/assets/docu/screenshots/screenshot-blue-wins.png)
+![Blue Wins](./src/assets/docu/screenshots/Screenshot-blue-wins.png)
 
 **Draw**  
-![Draw](./src/assets/docu/screenshots/screenshot-draw.png)
+![Draw](./src/assets/docu/screenshots/Screenshot-draw.png)
